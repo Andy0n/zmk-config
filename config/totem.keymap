@@ -1,22 +1,11 @@
-//
-//                                                        ▀▀▀▀▀     ▀▀▀▀▀          ▀▀█▀▀
-//                                                        ▄▀▀▀▄  ▄  ▄▀▀▀▄  ▄  ▄▀▀▀▄  █  ▄▀▀▀▄
-//                                                        █   █  █  █   █  █  █   █  █  █   █
-//                                                         ▀▀▀   █   ▀▀▀   █   ▀▀▀   ▀   ▀▀▀
-//                                                               █      ▄▄▄█▄▄▄    █   █
-//                                                               ▀      █  █  █     █▄█
-//                                                             ▀▀▀▀▀    █  █  █      ▀
-//                                                                      ▀  ▀  ▀
-//
-// ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-
 #include <behaviors.dtsi>
+#include <zmk-helpers/helper.h>           // Requires zmk-helpers module.
+#include <zmk-helpers/key-labels/totem.h> // Requires zmk-helpers module.
 #include <dt-bindings/zmk/keys.h>
-#include "zmk-helpers/key-labels/totem.h"
+// Wireless:
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/outputs.h>
 
-#define KEYS_L LT0 LT1 LT2 LT3 LT4 LM0 LM1 LM2 LM3 LM4 LB0 LB1 LB2 LB3 LB4 LB5 // Left-hand keys.
-#define KEYS_R RT0 RT1 RT2 RT3 RT4 RM0 RM1 RM2 RM3 RM4 RB0 RB1 RB2 RB3 RB4 RB5 // Right-hand keys.
-#define THUMBS LH2 LH1 LH0 RH0 RH1 RH2                                         // Thumb keys.
 
 #define BASE        0
 #define NAV         1
@@ -28,185 +17,89 @@
 #define XXX &none
 #define ___ &trans
 
-&mt {
-    quick-tap-ms = <100>;
-    global-quick-tap;
-    flavor = "tap-preferred";
-    tapping-term-ms = <170>;
+
+
+/* Global defaults */
+#define QUICK_TAP_MS 175
+
+&sk {
+  release-after-ms = <900>;
+  quick-release;
+};
+
+&sl { // Allow sticky mods to chord across sticky layers.
+  ignore-modifiers;
 };
 
 &lt {
-    tapping-term-ms = <240>;
-    flavor = "balanced";
-    quick-tap-ms = <150>;
+  flavor = "balanced";
+  tapping-term-ms = <200>;
+  quick-tap-ms = <QUICK_TAP_MS>;
 };
 
-// German QWERTZ Layout Keycodes
-#define DE_A A
-#define DE_B B
-#define DE_C C
-#define DE_D D
-#define DE_E E
-#define DE_F F
-#define DE_G G
-#define DE_H H
-#define DE_I I
-#define DE_J J
-#define DE_K K
-#define DE_L L
-#define DE_M M
-#define DE_N N
-#define DE_O O
-#define DE_P P
-#define DE_Q Q
-#define DE_R R
-#define DE_S S
-#define DE_T T
-#define DE_U U
-#define DE_V V
-#define DE_W W
-#define DE_X X
-#define DE_Y Z
-#define DE_Z Y
-
-// Numbers
-#define DE_N0 N0
-#define DE_N1 N1
-#define DE_N2 N2
-#define DE_N3 N3
-#define DE_N4 N4
-#define DE_N5 N5
-#define DE_N6 N6
-#define DE_N7 N7
-#define DE_N8 N8
-#define DE_N9 N9
-
-// Punctuation and symbols
-#define DE_COMMA COMMA
-#define DE_DOT DOT
-#define DE_MINUS FSLH
-#define DE_PLUS RBKT
-
-// German umlauts and special characters
-#define DE_A_UMLAUT APOS
-#define DE_O_UMLAUT SEMI
-#define DE_U_UMLAUT LBKT
-#define DE_SZ MINUS
-
-// Symbols accessible via Shift
-#define DE_EXCL LS(N1)
-#define DE_HASH BSLH
-#define DE_QMARK LS(MINUS)
-#define DE_STAR LS(RBKT)
-#define DE_DEG LS(GRAVE)
-#define DE_CARET GRAVE
-
-// Brackets and braces
-#define DE_LPAR LS(N8)
-#define DE_RPAR LS(N9)
-#define DE_LBKT RA(N8)
-#define DE_RBKT RA(N9)
-#define DE_LBRC RA(N7)
-#define DE_RBRC RA(N0)
-#define DE_LT NUBS
-#define DE_GT LS(NUBS)
-
-// Slashes and pipes
-#define DE_FSLH LS(N7)
-#define DE_BSLH RA(MINUS)
-#define DE_PIPE RA(NUBS)
-
-// Other symbols
-#define DE_ACUTE EQUAL
-#define DE_TILDE RA(RBKT)
 
 
-#define MOD_A &hml LALT DE_A
-#define MOD_S &hml RALT DE_S
-#define MOD_D &hml LGUI DE_D
-#define MOD_F &hml LCTRL DE_F
+/* Homerow mods */
+#define KEYS_L LT0 LT1 LT2 LT3 LT4 LM0 LM1 LM2 LM3 LM4 LB0 LB1 LB2 LB3 LB4 LB5 // Left-hand keys.
+#define KEYS_R RT0 RT1 RT2 RT3 RT4 RM0 RM1 RM2 RM3 RM4 RB0 RB1 RB2 RB3 RB4 RB5 // Right-hand keys.
+#define THUMBS LH2 LH1 LH0 RH0 RH1 RH2                                         // Thumb keys.
 
-#define MOD_J &hmr RCTRL DE_J
-#define MOD_K &hmr RGUI DE_K
-#define MOD_L &hmr RALT DE_L
-#define MOD_OE &hmr LALT DE_O_UMLAUT
+#define MAKE_HRM(NAME, HOLD, TAP, TRIGGER_POS)                                 \
+  ZMK_HOLD_TAP(NAME, bindings = <HOLD>, <TAP>; flavor = "balanced";            \
+               tapping-term-ms = <280>; quick-tap-ms = <QUICK_TAP_MS>;         \
+               require-prior-idle-ms = <150>; hold-trigger-on-release;         \
+               hold-trigger-key-positions = <TRIGGER_POS>;)
 
-/ {
-    behaviors {
-        hml: home_row_mod_left {
-            compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <2>;
-            flavor = "balanced";
-            require-prior-idle-ms = <150>;
-            tapping-term-ms = <280>;
-            quick-tap-ms = <175>;
-            bindings = <&kp>, <&kp>;
-            hold-trigger-key-positions = <KEYS_R THUMBS>;
-            hold-trigger-on-release;
-        };
-        hmr: home_row_mod_right {
-            compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <2>;
-            flavor = "balanced";
-            require-prior-idle-ms = <150>;
-            tapping-term-ms = <280>;
-            quick-tap-ms = <175>;
-            bindings = <&kp>, <&kp>;
-            hold-trigger-key-positions = <KEYS_L THUMBS>;
-            hold-trigger-on-release;
-        };
-    };
+MAKE_HRM(hml, &kp, &kp, KEYS_R THUMBS) // Left-hand HRMs.
+MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS) // Right-hand HRMs.
 
-    combos { compatible = "zmk,combos"; };
+// Hack: Make HRM combos tap-only (cf, ZMK issue #544).
+#define ZMK_COMBO_8(NAME, TAP, POS, LAYERS, COMBO_MS, IDLE_MS, HOLD, SIDE)     \
+  MAKE_HRM(hm_combo_##NAME, &kp, TAP, SIDE THUMBS)                             \
+  ZMK_COMBO_6(NAME, &hm_combo_##NAME HOLD 0, POS, LAYERS, COMBO_MS, IDLE_MS)
 
-    keymap {
-        compatible = "zmk,keymap";
 
-        Base {
-            display-name = "Base";
-            bindings = <
+
+/* Keymap */
+#ifndef ZMK_BASE_LAYER
+  #define ZMK_BASE_LAYER(name, LT, RT, LM, RM, LB, RB, LH, RH)                 \
+      ZMK_LAYER(name, LT RT LM RM LB RB LH RH)
+#endif
+
+ZMK_BASE_LAYER(Base,
 //              ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-                 &kp DE_Q      &kp DE_W      &kp DE_E      &kp DE_R      &kp DE_T        &kp DE_Z      &kp DE_U      &kp DE_I      &kp DE_O      &kp DE_P
+                 &kp Q         &kp W         &kp E         &kp R         &kp T           &kp Y         &kp U         &kp I         &kp O         &kp P
 //              ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-                 MOD_A         MOD_S         MOD_D         MOD_F         &kp DE_G        &kp DE_H      MOD_J         MOD_K         MOD_L         MOD_OE
+                 &hml LALT A   &hml RALT S   &hml LGUI D   &hml LCTRL F  &kp G           &kp H         &hmr RCTRL J  &hmr RGUI K   &hmr RALT L   &hmr LALT SEMICOLON
 //╭─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────╮
-   &kp ESCAPE    &kp DE_Y      &kp DE_X      &kp DE_C      &kp DE_V      &kp DE_B        &kp DE_N      &kp DE_M      &kp DE_COMMA  &kp DE_DOT    &kp DE_MINUS  &kp DE_A_UMLAUT
+   &kp ESCAPE    &kp Z         &kp X         &kp C         &kp V         &kp B           &kp N         &kp M         &kp COMMA     &kp DOT       &kp SLASH     &kp APOSTROPHE
 //╰─────────────┴─────────────┴─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
-                                             &kp TAB       &lt NAV BSPC  &kp SPACE       &mt RSHFT RET &lt SYM DE_SZ DE_U_UMLAUT
+                                             &kp TAB       &lt NAV BSPC  &kp SPACE       &mt RSHFT RET &lt SYM LBRC  &kp MINUS
 //                                          ╰─────────────┴─────────────┴─────────────╯ ╰─────────────┴─────────────┴─────────────╯
-            >;
-        };
+)
 
-        Nav {
-            display-name = "Nav";
-            bindings = <
+ZMK_BASE_LAYER(Nav,
 //              ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
                  ___           ___           &kp UP_ARROW  ___           ___             ___           &kp N7        &kp N8        &kp N9        ___
 //              ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-                 ___           &kp LEFT      &kp DOWN      &kp RIGHT     ___             ___           &kp N4        &kp N5        &kp N6        ___
+                 &trans        &kp LEFT      &kp DOWN      &kp RIGHT     &trans          &trans        &kp N4        &kp N5        &kp N6        &trans
 //╭─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────╮
    ___           ___           ___           ___           ___           ___             &kp N0        &kp N1        &kp N2        &kp N3        ___           ___
 //╰─────────────┴─────────────┴─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
                                              ___           ___           ___             ___           ___           ___
 //                                          ╰─────────────┴─────────────┴─────────────╯ ╰─────────────┴─────────────┴─────────────╯
-            >;
-        };
+)
 
-        Sym {
-            display-name = "Sym";
-            bindings = <
+ZMK_BASE_LAYER(Sym,
 //              ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-                 &kp DE_CARET  &kp DE_DEG    ___           &kp DE_HASH   &kp DE_EXCL     &kp DE_QMARK  &kp DE_TILDE  &kp DE_STAR   ___           ___
+                 &kp GRAVE     &kp LS(GRAVE) ___           &kp BSLH      &kp LS(N1)      &kp LS(MINUS) &kp RA(RBRC)  &kp LS(RBRC)  ___           ___
 //              ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-                 &kp DE_LT     &kp DE_LBKT   &kp DE_LBRC   &kp DE_LPAR   &kp DE_FSLH     &kp DE_BSLH   &kp DE_RPAR   &kp DE_RBRC   &kp DE_RBKT   &kp DE_GT
+                 &kp NUBS      &kp RA(N8)    &kp RA(N7)    &kp LS(N8)    &kp LS(N7)      &kp RA(MINUS) &kp LS(N9)    &kp RA(N0)    &kp RA(N8)    &kp LS(NUBS)
 //╭─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────╮
-   &studio_unlock ___          ___           ___           &kp DE_ACUTE  ___             ___           &kp DE_PIPE   ___           ___           ___           ___
+   &studio_unlock ___          ___           ___           &kp EQL       ___             ___           &kp RA(NUBS)  ___           ___           ___           ___
 //╰─────────────┴─────────────┴─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
                                              ___           ___           ___             ___           ___           ___
 //                                          ╰─────────────┴─────────────┴─────────────╯ ╰─────────────┴─────────────┴─────────────╯
-            >;
-        };
-    };
-};
+)
 
 /* vim: set ft=c tw=174: */
