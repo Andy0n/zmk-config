@@ -20,15 +20,15 @@
     };
 };
 
-// &kscan0 {
-//     col-gpios
-//         = <&xiao_d 0 GPIO_ACTIVE_HIGH>
-//         , <&xiao_d 0 GPIO_ACTIVE_HIGH>
-//         , <&xiao_d 0 GPIO_ACTIVE_HIGH>
-//         , <&xiao_d 0 GPIO_ACTIVE_HIGH>
-//         , <&xiao_d 0 GPIO_ACTIVE_HIGH>
-//         ;
-// };
+&kscan0 {
+    col-gpios
+        = <&xiao_d 0 GPIO_ACTIVE_HIGH>
+        , <&xiao_d 0 GPIO_ACTIVE_HIGH>
+        , <&xiao_d 0 GPIO_ACTIVE_HIGH>
+        , <&xiao_d 0 GPIO_ACTIVE_HIGH>
+        , <&xiao_d 0 GPIO_ACTIVE_HIGH>
+        ;
+};
 
 &xiao_i2c {
     status = "okay";
