@@ -89,37 +89,37 @@
 #define DE_PLUS RBKT
 
 // German umlauts and special characters
-#define DE_A_UMLAUT APOS    // ä
-#define DE_O_UMLAUT SEMI    // ö  
-#define DE_U_UMLAUT LBKT    // ü
-#define DE_SZ MINUS         // ß
+#define DE_A_UMLAUT APOS
+#define DE_O_UMLAUT SEMI
+#define DE_U_UMLAUT LBKT
+#define DE_SZ MINUS
 
 // Symbols accessible via Shift
-#define DE_EXCL LS(N1)      // !
-#define DE_HASH BSLH        // # (on German layout)
-#define DE_QMARK LS(MINUS)  // ?
-#define DE_STAR LS(RBKT)    // *
-#define DE_DEG LS(GRAVE)    // °
-#define DE_CARET GRAVE      // ^
+#define DE_EXCL LS(N1)
+#define DE_HASH BSLH
+#define DE_QMARK LS(MINUS)
+#define DE_STAR LS(RBKT)
+#define DE_DEG LS(GRAVE)
+#define DE_CARET GRAVE
 
 // Brackets and braces
-#define DE_LPAR LS(N8)      // (
-#define DE_RPAR LS(N9)      // )
-#define DE_LBKT RA(N8)      // [
-#define DE_RBKT RA(N9)      // ]
-#define DE_LBRC RA(N7)      // {
-#define DE_RBRC RA(N0)      // }
-#define DE_LT NUBS          // <
-#define DE_GT LS(NUBS)      // >
+#define DE_LPAR LS(N8)
+#define DE_RPAR LS(N9)
+#define DE_LBKT RA(N8)
+#define DE_RBKT RA(N9)
+#define DE_LBRC RA(N7)
+#define DE_RBRC RA(N0)
+#define DE_LT NUBS
+#define DE_GT LS(NUBS)
 
 // Slashes and pipes
-#define DE_FSLH LS(N7)      // /
-#define DE_BSLH RA(MINUS)   // \
-#define DE_PIPE RA(NUBS)    // |
+#define DE_FSLH LS(N7)
+#define DE_BSLH RA(MINUS)
+#define DE_PIPE RA(NUBS)
 
 // Other symbols
-#define DE_ACUTE EQUAL      // ´
-#define DE_TILDE RA(RBKT)   // ~
+#define DE_ACUTE EQUAL
+#define DE_TILDE RA(RBKT)
 
 
 #define MOD_A &hml LALT DE_A
