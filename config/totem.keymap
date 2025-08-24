@@ -20,12 +20,15 @@
 #define KEYS_R RT0 RT1 RT2 RT3 RT4 RM0 RM1 RM2 RM3 RM4 RB0 RB1 RB2 RB3 RB4 RB5 // Right-hand keys.
 #define THUMBS LH2 LH1 LH0 RH0 RH1 RH2                                      // Thumb keys.
 
-#define Base        0
-#define Nav         1
-#define Sym         2
-#define Fun         3
-#define Game        4
-#define Misc        5
+#define BASE        0
+#define NAV         1
+#define SYM         2
+#define FUN         3
+#define GAME        4
+#define MISC        5
+
+#define XXX &none
+#define ___ &trans
 
 &mt {
     quick-tap-ms = <100>;
@@ -52,16 +55,6 @@
 
 / {
     behaviors {
-        // hm: homerow_mods {
-        //     compatible = "zmk,behavior-hold-tap";
-        //     label = "HOMEROW_MODS";
-        //     #binding-cells = <2>;
-        //     flavor = "tap-preferred";
-        //     tapping-term-ms = <200>;
-        //     quick-tap-ms = <125>;
-        //     global-quick-tap;
-        //     bindings = <&kp>, <&kp>;
-        // };
         hml: home_row_mod_left {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
@@ -110,13 +103,13 @@
             display-name = "Nav";
             bindings = <
 //              ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-                 ___           ___           &kp UP_ARROW  ___           ___          ,  ___           &kp N7        &kp N8        &kp N9        ___          ,
+                 ___           ___           &kp UP_ARROW  ___           ___             ___           &kp N7        &kp N8        &kp N9        ___
 //              ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-                 ___           &kp LEFT      &kp DOWN      &kp RIGHT     ___          ,  ___           &kp N4        &kp N5        &kp N6        ___          ,
+                 ___           &kp LEFT      &kp DOWN      &kp RIGHT     ___             ___           &kp N4        &kp N5        &kp N6        ___
 //╭─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────╮
-   ___           ___           ___           ___           ___           ___          ,  &kp N0        &kp N1        &kp N2        &kp N3        ___           ___          ,
+   ___           ___           ___           ___           ___           ___             &kp N0        &kp N1        &kp N2        &kp N3        ___           ___
 //╰─────────────┴─────────────┴─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
-                                             ___           ___           ___          ,  ___           ___           ___
+                                             ___           ___           ___             ___           ___           ___
 //                                          ╰─────────────┴─────────────┴─────────────╯ ╰─────────────┴─────────────┴─────────────╯
             >;
         };
@@ -125,13 +118,13 @@
             display-name = "Sym";
             bindings = <
 //              ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-                 &kp DE_CARET  &kp DE_DEG    ___           &kp DE_HASH   &kp DE_EXCL  ,  &kp DE_QMARK  &kp DE_TILDE  &kp DE_STAR   ___           ___          ,
+                 &kp DE_CARET  &kp DE_DEG    ___           &kp DE_HASH   &kp DE_EXCL     &kp DE_QMARK  &kp DE_TILDE  &kp DE_STAR   ___           ___
 //              ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-                 &kp DE_LT     &kp DE_LBKT   &kp DE_LBRC   &kp DE_LPAR   &kp DE_FSLH  ,  &kp DE_BSLH   &kp DE_RPAR   &kp DE_RBRC   &kp DE_RBKT   &kp DE_GT    ,
+                 &kp DE_LT     &kp DE_LBKT   &kp DE_LBRC   &kp DE_LPAR   &kp DE_FSLH     &kp DE_BSLH   &kp DE_RPAR   &kp DE_RBRC   &kp DE_RBKT   &kp DE_GT
 //╭─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────╮
-   &studio_unlock ___          ___           ___           &kp DE_ACUTE  ___          ,  ___           &kp DE_PIPE   ___           ___           ___           ___          ,
+   &studio_unlock ___          ___           ___           &kp DE_ACUTE  ___             ___           &kp DE_PIPE   ___           ___           ___           ___
 //╰─────────────┴─────────────┴─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
-                                             ___           ___           ___          ,  ___           ___           ___
+                                             ___           ___           ___             ___           ___           ___
 //                                          ╰─────────────┴─────────────┴─────────────╯ ╰─────────────┴─────────────┴─────────────╯
             >;
         };
