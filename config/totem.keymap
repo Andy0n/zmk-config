@@ -67,8 +67,8 @@
 #define DE_V V
 #define DE_W W
 #define DE_X X
-#define DE_Y Z  // Y and Z are swapped in German layout
-#define DE_Z Y  // Y and Z are swapped in German layout
+#define DE_Y Z
+#define DE_Z Y
 
 // Numbers
 #define DE_N0 N0
