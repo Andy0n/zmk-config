@@ -48,6 +48,8 @@ if SHIELD_TOTEM_DONGLE
                 default LV_COLOR_DEPTH_1
             endchoice # LV_COLOR_DEPTH
 
+        endif # LVGL
+
     endif # ZMK_DISPLAY
 
 endif # SHIELD_TOTEM_DONGLE
