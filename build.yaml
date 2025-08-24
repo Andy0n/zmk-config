@@ -19,4 +19,13 @@
 #
 ---
 include:
-  - board: ferris_rev02
+  - board: seeeduino_xiao_ble
+    shield: totem_left
+  - board: seeeduino_xiao_ble
+    shield: totem_right
+  - board: seeeduino_xiao_ble
+    shield: totem_dongle dongle_display
+    snippet: studio-rpc-usb-uart
+    cmake-args: -DCONFIG_ZMK_STUDIO=y
+  - board: seeeduino_xiao_ble
+    shield: settings_reset
