@@ -30,6 +30,9 @@ manifest:
     - name: zmk-unicode
       remote: urob
       revision: v0.3
+    - name: zmk-adaptive-key
+      remote: urob
+      revision: v0.3
     - name: zmk-tri-state
       remote: urob
   self:
