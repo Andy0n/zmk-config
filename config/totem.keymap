@@ -9,24 +9,16 @@
 #include <dt-bindings/zmk/outputs.h>
 
 
-// #define BASE        0
-// #define NAV         1
-// #define NUM         1
-// #define SYM         2
-// #define FUN         3
-// #define GAME        4
-// #define MISC        5
-
-#define DEF 0
-#define NAV 1
-#define FN 2
-#define NUM 3
-#define SYS 4
+#define BASE  0
+#define NAV   1
+#define FN    2
+#define NUM   3
+#define SYS   4
 #define MOUSE 5
+#define GAME  6
 
 #define XXX &none
 #define ___ &trans
-
 
 
 /* Global defaults */
@@ -47,6 +39,9 @@
   quick-tap-ms = <QUICK_TAP_MS>;
 };
 
+&uc {
+  default-mode = <UC_MODE_LINUX>;
+};
 
 
 /* Homerow mods */
@@ -68,14 +63,14 @@ MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS) // Right-hand HRMs.
   MAKE_HRM(hm_combo_##NAME, &kp, TAP, SIDE THUMBS)                             \
   ZMK_COMBO_6(NAME, &hm_combo_##NAME HOLD 0, POS, LAYERS, COMBO_MS, IDLE_MS)
 
-/* Combos, leader key sequences, mouse emulation */
 
+/* Combos, leader key sequences, mouse emulation */
 #include "combos.dtsi" // Must be sourced after HRM-combo hack.
 #include "leader.dtsi"
 #include "mouse.dtsi"
 
-/* Magic-shift & auto-layers */
 
+/* Magic-shift & auto-layers */
 // Tap: repeat after alpha, else sticky-shift |
 // Shift + tap/ double-tap: caps-word | Hold: shift.
 #define MAGIC_SHIFT &magic_shift LSHFT 0
@@ -110,8 +105,8 @@ ZMK_TRI_STATE(
         <LT1 LT2 LH0 LH1 RT1 RT2 RT3 RM0 RM1 RM2 RM3 RM4 RB1 RB2 RB3 RH0 RH1>;
     ignored-layers = <MOUSE NAV FN>;)
 
-/* Custom behaviors */
 
+/* Custom behaviors */
 // Define mod-morph with a *single* mod trigger for less repetition.
 #define SIMPLE_MORPH(NAME, MOD, BINDING1, BINDING2)                            \
   ZMK_MOD_MORPH(NAME, mods = <(MOD_L##MOD | MOD_R##MOD)>;                      \
@@ -153,10 +148,13 @@ ZMK_MACRO(leader_sft, bindings = <&sk LSHFT &leader>;)
 
 
 /* Keymap */
+ZMK_CONDITIONAL_LAYER(sys, FN NAV, SYS) // FN + NAV --> SYS.
+
 #ifndef ZMK_BASE_LAYER
   #define ZMK_BASE_LAYER(name, LT, RT, LM, RM, LB, RB, LH, RH)                 \
       ZMK_LAYER(name, LT RT LM RM LB RB LH RH)
 #endif
+
 
 ZMK_BASE_LAYER(Base,
 //              ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
@@ -198,9 +196,9 @@ ZMK_BASE_LAYER(Num,
 //              ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
                  ___           ___           ___           ___           ___          ,  ___           &kp N7        &kp N8        &kp N9        ___          ,
 //              ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-                 ___           ___           ___           ___           ___          ,  ___           &kp N4        &kp N5        &kp N6        ___          ,
+                 ___           ___           ___           ___           ___          ,  ___           &kp N4        &kp N5        &kp N6        &kp N0       ,
 //╭─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────╮
-   ___           ___           ___           ___           ___           ___          ,  &kp N0        &kp N1        &kp N2        &kp N3        ___           ___          ,
+   ___           ___           ___           ___           ___           ___          ,  ___           &kp N1        &kp N2        &kp N3        ___           ___          ,
 //╰─────────────┴─────────────┴─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
                                              ___           ___           ___          ,  ___           ___           ___
 //                                          ╰─────────────┴─────────────┴─────────────╯ ╰─────────────┴─────────────┴─────────────╯
@@ -208,11 +206,11 @@ ZMK_BASE_LAYER(Num,
 
 ZMK_BASE_LAYER(Sys,
 //              ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-                 &kp CARET     ___           ___           &kp HASH      &kp EXCL     ,  &kp QMARK     &kp TILDE     &kp STAR      ___           ___          ,
+                 &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_CLR   ,  ___           ___           ___           ___           &uc UC_SET_WIN_COMPOSE,
 //              ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-                 &kp LT        &kp LBKT      &kp LBRC      &kp LPAR      &kp FSLH     ,  &kp BSLH      &kp RPAR      &kp RBRC      &kp RBKT      &kp GT       ,
+                 ___           ___           ___           &out OUT_TOG  &bootloader  ,  &bootloader   ___           ___           ___           &uc UC_SET_LINUX,
 //╭─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────╮
-   &studio_unlock ___          ___           ___           ___           ___          ,  ___           &kp PIPE      ___           ___           ___           ___          ,
+   &studio_unlock ___          ___           ___           ___           &sys_reset   ,  &sys_reset    ___           ___           ___           &uc UC_SET_MACOS  &tog GAME,
 //╰─────────────┴─────────────┴─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
                                              ___           ___           ___          ,  ___           ___           ___
 //                                          ╰─────────────┴─────────────┴─────────────╯ ╰─────────────┴─────────────┴─────────────╯
@@ -227,6 +225,18 @@ ZMK_BASE_LAYER(Mouse,
    ___           ___           ___           ___           ___           ___          ,  ___           ___           &mkp MCLK     ___           ___           ___          ,
 //╰─────────────┴─────────────┴─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
                                              ___           ___           ___          ,  &mkp LCLK     &mkp RCLK     ___
+//                                          ╰─────────────┴─────────────┴─────────────╯ ╰─────────────┴─────────────┴─────────────╯
+)
+
+ZMK_BASE_LAYER(Game,
+//              ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
+                 &kp TAB       &kp Q         &kp W         &kp E         &kp R        ,  ___           ___           ___           ___           ___          ,
+//              ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+                 &kp LSHFT     &kp A         &kp S         &kp D         &kp F        ,  ___           ___           ___           ___           ___          ,
+//╭─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────╮
+   &kp ESCAPE    &kp LCTRL     &kp Y         &kp X         &kp C         &kp V        ,  ___           ___           ___           ___           ___           &tog BASE    ,
+//╰─────────────┴─────────────┴─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
+                                             ___           &kp K         &kp SPACE    ,  ___           ___           ___
 //                                          ╰─────────────┴─────────────┴─────────────╯ ╰─────────────┴─────────────┴─────────────╯
 )
 
